@@ -57,23 +57,23 @@
 
 <header>
   <img src="logo.jpg" alt="Logo Toko Melisa" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%232e7d32\'/><text x=\'50%\' y=\'50%\' fill=\'white\' font-size=\'14\' text-anchor=\'middle\' dominant-baseline=\'middle\'>MELISA</text></svg>'">
-  <p> Jl Mbabrik RT.04 RW.01 Campurejo Panceng Gresik</p>
-  <div class="badge-delivery"> DELIVERY ORDER SIAP KIRIM</div>
+  <p>📍 Jl Mbabrik RT.04 RW.01 Campurejo Panceng Gresik</p>
+  <div class="badge-delivery">🚚 DELIVERY ORDER SIAP KIRIM</div>
 </header>
 
 <div class="info-box">
-  <span class="info-item"> SEMBAKO MURAH</span> | 
-  <span class="info-item"> ANTAR CEPAT</span> | 
-  <span class="info-item"> PLASTIK GRATIS</span> | 
-  <span class="info-item"> STOK LENGKAP</span>
+  <span class="info-item">🏷️ SEMBAKO MURAH</span> | 
+  <span class="info-item">🛵 ANTAR CEPAT</span> | 
+  <span class="info-item">🛍️ PLASTIK GRATIS</span> | 
+  <span class="info-item">📦 STOK LENGKAP</span>
 </div>
 
 <div class="search">
-  <input type="text" id="cari" placeholder=" Cari produk... beras, susu, snack" onkeyup="cariProduk()">
+  <input type="text" id="cari" placeholder="🔍 Cari produk... beras, susu, snack" onkeyup="cariProduk()">
 </div>
 
 <div class="banner">
-   PESAN ONLINE - BAYAR DI TEMPAT (COD) / TRANSFER 
+  ⚡ PESAN ONLINE - BAYAR DI TEMPAT (COD) / TRANSFER 💳
 </div>
 
 <div class="produk" id="daftar-produk"></div>
@@ -81,10 +81,10 @@
 <div class="keranjang-bar" onclick="bukaKeranjang()">
   <div style="display:flex;align-items:center;gap:10px">
     <div class="icon-keranjang">
-      
+      🛒
       <div class="lencana" id="jumlah-lencana">0</div>
     </div>
-    <div style="font-weight:bold; color:#2e7d32;"> Lihat Keranjang</div>
+    <div style="font-weight:bold; color:#2e7d32;">🛍️ Lihat Keranjang</div>
   </div>
   <div class="total-wrap">
     <div class="label-total">Total Belanja</div>
@@ -95,12 +95,12 @@
 <div class="popup" id="popupKeranjang">
   <div class="popup-content">
     <div class="popup-header">
-      <h3> Keranjang Belanja</h3>
-      <button class="close-btn" onclick="tutupKeranjang()"></button>
+      <h3>🛒 Keranjang Belanja</h3>
+      <button class="close-btn" onclick="tutupKeranjang()">x</button>
     </div>
     <div id="isi-keranjang" style="text-align:center; color:#666; padding:20px;">Keranjang masih kosong</div>
     <div class="total-bar" id="total-keranjang"></div>
-    <button class="btn-wa" onclick="kirimWA()"> Kirim Pesanan via WhatsApp</button>
+    <button class="btn-wa" onclick="kirimWA()">💬 Kirim Pesanan via WhatsApp</button>
   </div>
 </div>
 
@@ -147,10 +147,10 @@
     if(itemKeranjang){ itemKeranjang.jumlah++ } 
     else{ keranjang.push({...itemProduk, jumlah:1}) }
     
-    tombol.innerHTML = ' Ditambah';
+    tombol.innerHTML = '✓ Ditambah';
     tombol.classList.add('sukses');
     setTimeout(()=>{
-      tombol.innerHTML = ' Tambah';
+      tombol.innerHTML = '+ Tambah';
       tombol.classList.remove('sukses');
     }, 300);
 
@@ -198,7 +198,7 @@
     const container = document.getElementById('isi-keranjang');
     const totalEl = document.getElementById('total-keranjang');
     if(keranjang.length === 0){
-      container.innerHTML = " Keranjang masih kosong";
+      container.innerHTML = "🛒 Keranjang masih kosong";
       totalEl.innerHTML = "";
       return;
     }
@@ -217,7 +217,7 @@
               <span>${k.jumlah}</span>
               <button onclick="ubahJumlah('${k.nama}','tambah')">+</button>
             </div>
-            <button class="btn-hapus" onclick="hapusItem('${k.nama}')"> Hapus</button>
+            <button class="btn-hapus" onclick="hapusItem('${k.nama}')">🗑️ Hapus</button>
           </div>
         </div>
       `;
