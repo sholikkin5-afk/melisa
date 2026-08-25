@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Melisa - Belanja Jadi Mudah</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+    body{background:#f5f5f5;padding-bottom:100px}
+    header{background:#2e7d32;color:white;padding:15px;position:sticky;top:0;z-index:10;text-align:center}
+    header img{width:150px;height:80px;border-radius:10px;background:white;object-fit:cover;margin:auto;display:block}
+    header p{font-size:12px;margin-top:6px;font-weight:bold}
+    .badge-delivery{background:#ffc107;color:#000;font-size:11px;font-weight:bold;padding:3px 8px;border-radius:15px;margin-top:5px;display:inline-block}
+    .search{padding:10px;background:white}
+    .search input{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
+    .banner{background:#4caf50;color:white;text-align:center;padding:12px;font-size:14px;font-weight:bold}
+    .info-box{background:#e8f5e9;padding:10px;margin:10px;border-radius:8px;font-size:13px;text-align:center;color:#2e7d32;font-weight:bold}
+    .produk{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px;max-width:800px;margin:auto}
+    .card{background:white;border-radius:10px;padding:10px;box-shadow:0 2px 5px rgba(0,0,0,0.08)}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+    .card h3{font-size:14px;margin:6px 0;height:35px;overflow:hidden}
+    .card p{color:#2e7d32;font-weight:bold;font-size:15px}
+    .btn-tambah{background:#2e7d32;color:white;border:none;width:100%;padding:8px;border-radius:6px;margin-top:5px;font-weight:bold}
+    
+    .keranjang-bar{position:fixed;bottom:0;left:0;right:0;background:white;padding:10px 15px;box-shadow:0 -2px 10px rgba(0,0,0,0.1);cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+    .keranjang-bar:active{background:#f0f0f0}
+    .icon-keranjang{position:relative;font-size:28px}
+    .lencana{position:absolute;top:-5px;right:-8px;background:red;color:white;font-size:11px;font-weight:bold;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+    .total-wrap{text-align:right}
+    .label-total{font-size:11px;color:#666}
+    .total-harga{font-weight:bold;font-size:16px;color:#2e7d32}
+
+    .popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end}
+    .popup-content{background:white;width:100%;max-width:600px;margin:auto;border-radius:15px 15px 0 0;padding:15px;max-height:80vh;overflow-y:auto}
+    .popup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .popup-header h3{font-size:18px}
+    .close-btn{font-size:24px;border:none;background:none;cursor:pointer}
+    .item-cart{display:flex;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #eee}
+    .item-cart img{width:60px;height:60px;object-fit:cover;border-radius:8px}
+    .item-info{flex:1}
+    .item-info h4{font-size:14px}
+    .item-info p{color:#2e7d32;font-weight:bold;font-size:14px}
+    .qty-btn{display:flex;align-items:center;gap:8px;margin-top:5px}
+    .qty-btn button{width:28px;height:28px;border:1px solid #ddd;background:white;border-radius:5px;font-weight:bold;font-size:16px}
+    .btn-hapus{color:red;font-size:12px;border:none;background:none;cursor:pointer;margin-top:5px}
+    .total-bar{border-top:2px solid #eee;padding-top:10px;margin-top:10px;font-weight:bold;font-size:16px;display:flex;justify-content:space-between}
+    .btn-wa{width:100%;background:#25D366;color:white;border:none;padding:14px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:10px}
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.jpg" alt="Logo Toko Melisa">
+  <p>Jl Mbabrik RT.04 RW.01 Campurejo Panceng Gresik</p>
+  <div class="badge-delivery"> TERSEDIA DELIVERY ORDER</div>
+</header>
+
+<div class="info-box">
+   SEMBAKO MURAH |  DELIVERY |  PLASTIK GRATIS |  LENGKAP
+</div>
+
+<div class="search">
+  <input type="text" id="cari" placeholder="Cari produk... beras, susu, snack" onkeyup="cariProduk()">
+</div>
+
+<div class="banner">
+  PESAN ONLINE - BAYAR DI TEMPAT / TRANSFER
+</div>
+
+<div class="produk" id="daftar-produk"></div>
+
+<div class="keranjang-bar" onclick="bukaKeranjang()">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="icon-keranjang">
+      
+      <div class="lencana" id="jumlah-lencana">0</div>
+    </div>
+    <div>Lihat Keranjang</div>
+  </div>
+  <div class="total-wrap">
+    <div class="label-total">Total Belanja</div>
+    <div class="total-harga" id="total-harga-bar">Rp 0</div>
+  </div>
+</div>
+
+<div class="popup" id="popupKeranjang">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3> Keranjang Belanja</h3>
+      <button class="close-btn" onclick="tutupKeranjang()">×</button>
+    </div>
+    <div id="isi-keranjang">Keranjang masih kosong</div>
+    <div class="total-bar" id="total-keranjang"></div>
+    <button class="btn-wa" onclick="kirimWA()">Kirim Pesanan via WhatsApp</button>
+  </div>
+</div>
+
+<script>
+  const produk = [
+    {nama:"Susu Kental Manis Frisian Flag Pouch", harga:14000, gambar:"susu.jpg"},
+    {nama:"Wafer Superstar Full Chocolate", harga:8000, gambar:"superstar.jpg"},
+    {nama:"Choki Choki Chococashew Box 180g", harga:12000, gambar:"choki.jpg"},
+    {nama:"Chiki Balls Snack", harga:6000, gambar:"chiki.jpg"},
+    {nama:"Dilan Bar 5in1 Garuda", harga:10000, gambar:"dilan.jpg"},
+    {nama:"Vefeto Egg Roll Brownies", harga:15000, gambar:"vefeto.jpg"},
+    {nama:"Happy Esteler Minuman", harga:25000, gambar:"esteler.jpg"},
+    {nama:"Minuman Siiplah Box", harga:30000, gambar:"siiplah.jpg"},
+    {nama:"Beras Premium Yarice 3kg", harga:45000, gambar:"beras.jpg"},
+    {nama:"Minyakita 1 liter", harga:22500, gambar:"minyak.jpg"}
+  ];
+
+  let keranjang = [];
+
+  function tampilProduk(list=produk){
+    const container = document.getElementById('daftar-produk');
+    container.innerHTML = "";
+    list.forEach((p)=>{
+      container.innerHTML += `
+        <div class="card">
+          <img src="${p.gambar}" alt="${p.nama}">
+          <h3>${p.nama}</h3>
+          <p>Rp ${p.harga.toLocaleString('id-ID')}</p>
+          <button class="btn-tambah" onclick="tambahKeranjang('${p.nama}')">+ Tambah</button>
+        </div>
+      `;
+    });
+  }
+
+  function cariProduk(){
+    const keyword = document.getElementById('cari').value.toLowerCase();
+    const hasil = produk.filter(p => p.nama.toLowerCase().includes(keyword));
+    tampilProduk(hasil);
+  }
+
+  function tambahKeranjang(nama){
+    const itemProduk = produk.find(p => p.nama === nama);
+    const itemKeranjang = keranjang.find(x=>x.nama === nama);
+    if(itemKeranjang){ itemKeranjang.jumlah++ } 
+    else{ keranjang.push({...itemProduk, jumlah:1}) }
+    updateKeranjangBar();
+  }
+  
+  function ubahJumlah(nama, aksi){
+    const item = keranjang.find(x=>x.nama === nama);
+    if(!item) return;
+    if(aksi === 'tambah'){ item.jumlah++ }
+    if(aksi === 'kurang'){ item.jumlah-- }
+    if(item.jumlah <= 0){ keranjang = keranjang.filter(x=>x.nama !== nama) }
+    tampilKeranjang();
+    updateKeranjangBar();
+  }
+  
+  function hapusItem(nama){
+    keranjang = keranjang.filter(x=>x.nama !== nama);
+    tampilKeranjang();
+    updateKeranjangBar();
+  }
+
+  function updateKeranjangBar(){
+    let totalItem = keranjang.reduce((a,b)=>a+b.jumlah,0);
+    let totalHarga = keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0);
+    document.getElementById('jumlah-lencana').innerHTML = totalItem;
+    document.getElementById('total-harga-bar').innerHTML = `Rp ${totalHarga.toLocaleString('id-ID')}`;
+    document.getElementById('jumlah-lencana').style.display = totalItem > 0 ? 'flex' : 'none';
+  }
+
+  function bukaKeranjang(){
+    document.getElementById('popupKeranjang').style.display = 'flex';
+    tampilKeranjang();
+  }
+  
+  function tutupKeranjang(){
+    document.getElementById('popupKeranjang').style.display = 'none';
+  }
+
+  function tampilKeranjang(){
+    const container = document.getElementById('isi-keranjang');
+    const totalEl = document.getElementById('total-keranjang');
+    if(keranjang.length === 0){
+      container.innerHTML = "Keranjang masih kosong";
+      totalEl.innerHTML = "";
+      return;
+    }
+    container.innerHTML = "";
+    let total = 0;
+    keranjang.forEach((k)=>{
+      total += k.harga * k.jumlah;
+      container.innerHTML += `
+        <div class="item-cart">
+          <img src="${k.gambar}">
+          <div class="item-info">
+            <h4>${k.nama}</h4>
+            <p>Rp ${k.harga.toLocaleString('id-ID')}</p>
+            <div class="qty-btn">
+              <button onclick="ubahJumlah('${k.nama}','kurang')">-</button>
+              <span>${k.jumlah}</span>
+              <button onclick="ubahJumlah('${k.nama}','tambah')">+</button>
+            </div>
+            <button class="btn-hapus" onclick="hapusItem('${k.nama}')">Hapus</button>
+          </div>
+        </div>
+      `;
+    });
+    totalEl.innerHTML = `<span>Total Belanja</span> <span>Rp ${total.toLocaleString('id-ID')}</span>`;
+  }
+
+  function kirimWA(){
+    if(keranjang.length===0){ alert("Keranjang masih kosong!"); return; }
+    let pesan = "Assalamualaikum Admin Toko Melisa%0A%0ASaya mau pesan:%0A%0A";
+    let total = 0;
+    keranjang.forEach(k=>{
+      pesan += `- ${k.nama} x${k.jumlah} = Rp ${(k.harga*k.jumlah).toLocaleString('id-ID')}%0A`;
+      total += k.harga * k.jumlah;
+    });
+    pesan += `%0ATotal: Rp ${total.toLocaleString('id-ID')}%0A%0ANama: %0AAlamat Kirim: %0ANo HP: `;
+    window.open(`https://wa.me/6287754953101?text=${pesan}`); // NO WA BARU
+    tutupKeranjang();
+  }
+
+  tampilProduk();
+  updateKeranjangBar();
+</script>
+</body>
+</html>
