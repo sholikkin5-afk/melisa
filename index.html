@@ -86,7 +86,7 @@
   <div class="header-konten">
     <div class="hide-on-scroll">
       <img src="logo.jpg" alt="Logo Toko Melisa" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%232e7d32\'/><text x=\'50%\' y=\'50%\' fill=\'white\' font-size=\'14\' text-anchor=\'middle\' dominant-baseline=\'middle\'>MELISA</text></svg>'">
-      <p>📍 Jl Mbabrik RT.04 RW.01 Campurejo Panceng Gresik</p>
+      <p>Jl Mbabrik RT.04 RW.01 Campurejo Panceng Gresik</p>
       <div class="badge-delivery">🚚 DELIVERY ORDER SIAP KIRIM</div>
       
       <div class="jam-box">
@@ -297,7 +297,7 @@
       pesan += `- ${k.nama} x${k.jumlah} = Rp ${(k.harga*k.jumlah).toLocaleString('id-ID')}%0A`;
       total += k.harga * k.jumlah;
     });
-    pesan += `%0ATotal: Rp ${total.toLocaleString('id-ID')}%0A%0ANama: %0AAlamat Kirim: %0ANo HP: `;
+    pesan += `%0ATotal Belanja: Rp ${total.toLocaleString('id-ID')}%0A%0ANama: %0AAlamat Kirim: %0ANo HP: `;
     window.open(`https://wa.me/6281328282446?text=${pesan}`);
     tutupKeranjang();
   }
